@@ -1,0 +1,29 @@
+FROM ubuntu:latest
+RUN apt-get -y update && apt-get -y upgrade
+#common
+RUN apt-get install -y wget git gcc make bzip2
+RUN apt-get install -y vim
+# direnv
+RUN wget -O direnv https://github.com/direnv/direnv/releases/download/v2.13.1/direnv.linux-amd64
+RUN chmod +x direnv && mv direnv /usr/local/bin/ && echo 'eval "$(direnv hook bash)"' >> ~/.bashrc
+#rbenv
+RUN apt-get install -y libssl-dev libreadline-dev zlib1g-dev
+RUN git clone git://github.com/sstephenson/rbenv.git .rbenv
+RUN git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+RUN echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc && echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+ENV PATH="$HOME/.rbenv/bin:$PATH"
+RUN rbenv install 2.4.2 ; rbenv global 2.4.2
+RUN echo 'gem: --no-rdoc --no-ri' >> /.gemrc
+# piculet
+RUN ~/.rbenv/shims/gem install piculet
+# awspec
+RUN ~/.rbenv/shims/gem install awspec
+
+# awscli
+RUN apt-get install -y python-setuptools python2.7-dev
+RUN easy_install pip
+RUN pip install awscli
+RUN echo "complete -C '/usr/local/bin/aws_completer' aws" >> $HOME/.bashrc
+
+
+
