@@ -28,5 +28,7 @@ RUN echo "complete -C '/usr/local/bin/aws_completer' aws" >> $HOME/.bashrc
 # ansible
 RUN pip install ansible
 
+RUN echo "Hello"
+
 # exec
 CMD ["/bin/bash"]
