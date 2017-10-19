@@ -25,5 +25,7 @@ RUN easy_install pip
 RUN pip install awscli
 RUN echo "complete -C '/usr/local/bin/aws_completer' aws" >> $HOME/.bashrc
 
+# ansible
+RUN pip install ansible
 
-
+CMD ["/bin/bash"]
