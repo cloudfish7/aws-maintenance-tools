@@ -34,6 +34,7 @@ RUN pip install ansible
 # packer
 RUN mkdir ~/.packer && wget https://releases.hashicorp.com/packer/1.1.2/packer_1.1.2_linux_amd64.zip && unzip packer_1.1.2_linux_amd64.zip && mv packer ~/.packer/ 
 RUN echo 'export PATH="$PATH:$HOME/.packer"' >> $HOME/.bashrc
+ENV USER root
 
 # exec
 CMD ["/bin/bash"]
