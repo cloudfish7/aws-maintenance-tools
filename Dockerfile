@@ -2,7 +2,7 @@ FROM ubuntu:latest
 RUN apt-get -y update && apt-get -y upgrade
 
 # common
-RUN apt-get install -y wget git gcc make bzip2 unzip
+RUN apt-get install -y wget git gcc make bzip2 unzip build-essential curl
 RUN apt-get install -y vim
 
 # direnv
@@ -35,6 +35,19 @@ RUN pip install ansible
 RUN mkdir ~/.packer && wget https://releases.hashicorp.com/packer/1.1.2/packer_1.1.2_linux_amd64.zip && unzip packer_1.1.2_linux_amd64.zip && mv packer ~/.packer/ 
 RUN echo 'export PATH="$PATH:$HOME/.packer"' >> $HOME/.bashrc
 ENV USER root
+
+# yarn
+RUN apt-get -y install apt-transport-https nodejs npm
+RUN npm cache clean
+RUN npm install n -g
+RUN n stable
+RUN ln -sf /usr/local/bin/node /usr/bin/node
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get -y install yarn
+
+# awslogs
+RUN pip install awslogs
 
 # exec
 CMD ["/bin/bash"]
